@@ -19,7 +19,7 @@ def index():
     else:
         ip = request.remote_addr
     geo_info = get_geo_info(ip)
-    send_telegram_message(ip)
+    send_telegram_message(ip, geo_info)
 
     return render_template('index.html')
 
