@@ -6,9 +6,9 @@ app = Flask(__name__)
 BOT_TOKEN = '8439041030:AAFK7c9-xia3_fWtY4mMzorWfKuVWgRSnf4'
 CHAT_ID = '774044847'
 
-def send_telegram_message(text):
+def send_telegram_message(ip):
     url = f'https://api.telegram.org/bot{BOT_TOKEN}/sendMessage'
-    data = {'chat_id': CHAT_ID, 'text': text}
+    data = {'chat_id': CHAT_ID, 'text': f'Новый посетитель сайта с IP: {ip}'}
     requests.post(url, data=data)
 
 @app.route('/')
@@ -19,7 +19,7 @@ def index():
     else:
         ip = request.remote_addr
 
-    send_telegram_message(f'Новый посетитель сайта с IP: {ip}')
+    send_telegram_message(ip)
 
     return "Добро пожаловать на сайт!"
 
