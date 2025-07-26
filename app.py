@@ -1,14 +1,15 @@
 from flask import Flask, request
+import requests
 
 app = Flask(__name__)
 
-IP_LOG_FILE = 'ips.txt'
+BOT_TOKEN = '8439041030:AAFK7c9-xia3_fWtY4mMzorWfKuVWgRSnf4'
+CHAT_ID = '774044847'
 
-
-def save_ip(ip):
-    with open(IP_LOG_FILE, 'a') as f:
-        f.write(ip + '\n')
-
+def send_telegram_message(text):
+    url = f'https://api.telegram.org/bot{BOT_TOKEN}/sendMessage'
+    data = {'chat_id': CHAT_ID, 'text': text}
+    requests.post(url, data=data)
 
 @app.route('/')
 def index():
@@ -18,9 +19,9 @@ def index():
     else:
         ip = request.remote_addr
 
-    save_ip(ip)
-    return f'Ваш IP: {ip}'
+    send_telegram_message(f'Новый посетитель сайта с IP: {ip}')
 
+    return "Добро пожаловать на сайт!"
 
 if __name__ == '__main__':
     app.run(debug=True)
